@@ -1,63 +1,138 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=19920357&assignment_repo_type=AssignmentRepo)
-# Express.js RESTful API Assignment
+## Product API
+This is a RESTful API for managing products built with Express.js. It includes features for product management with filtering, pagination, and search capabilities.
+Setup
 
-This assignment focuses on building a RESTful API using Express.js, implementing proper routing, middleware, and error handling.
+## Ensure Node.js is installed
+## Install dependencies:
 
-## Assignment Overview
+npm install express body-parser uuid
 
-You will:
-1. Set up an Express.js server
-2. Create RESTful API routes for a product resource
-3. Implement custom middleware for logging, authentication, and validation
-4. Add comprehensive error handling
-5. Develop advanced features like filtering, pagination, and search
 
-## Getting Started
+## Run the server:
 
-1. Accept the GitHub Classroom assignment invitation
-2. Clone your personal repository that was created by GitHub Classroom
-3. Install dependencies:
-   ```
-   npm install
-   ```
-4. Run the server:
-   ```
-   npm start
-   ```
+node server.js
 
-## Files Included
+The server will run on http://localhost:3000 by default.
+API Endpoints
+Authentication
+## All endpoints require an Authorization header:
+Authorization: Bearer mysecrettoken
 
-- `Week2-Assignment.md`: Detailed assignment instructions
-- `server.js`: Starter Express.js server file
-- `.env.example`: Example environment variables file
+GET /api/products
+Retrieve all products with optional filtering, pagination, and search.
+Query Parameters:
 
-## Requirements
+## search: Search products by name (string)
+category: Filter by category (string)
+inStock: Filter by stock status (true/false)
+page: Page number for pagination (number, default: 1)
+limit: Number of items per page (number, default: 10)
 
-- Node.js (v18 or higher)
-- npm or yarn
-- Postman, Insomnia, or curl for API testing
+## Example Request:
+GET /api/products?search=laptop&category=electronics&inStock=true&page=1&limit=10
+Authorization: Bearer mysecrettoken
 
-## API Endpoints
+Example Response:
+{
+  "total": 1,
+  "page": 1,
+  "limit": 10,
+  "products": [
+    {
+      "id": "1",
+      "name": "Laptop",
+      "description": "High-performance laptop with 16GB RAM",
+      "price": 1200,
+      "category": "electronics",
+      "inStock": true
+    }
+  ]
+}
 
-The API will have the following endpoints:
+## GET /api/products/:id
+Retrieve a specific product by ID.
+Example Request:
+GET /api/products/1
+Authorization: Bearer mysecrettoken
 
-- `GET /api/products`: Get all products
-- `GET /api/products/:id`: Get a specific product
-- `POST /api/products`: Create a new product
-- `PUT /api/products/:id`: Update a product
-- `DELETE /api/products/:id`: Delete a product
+Example Response:
+{
+  "id": "1",
+  "name": "Laptop",
+  "description": "High-performance laptop with 16GB RAM",
+  "price": 1200,
+  "category": "electronics",
+  "inStock": true
+}
 
-## Submission
+## POST /api/products
+Create a new product.
+Request Body:
+{
+  "name": "Tablet",
+  "description": "10-inch tablet with 64GB storage",
+  "price": 400,
+  "category": "electronics",
+  "inStock": true
+}
 
-Your work will be automatically submitted when you push to your GitHub Classroom repository. Make sure to:
+## Example Request:
+POST /api/products
+Authorization: Bearer mysecrettoken
+Content-Type: application/json
 
-1. Complete all the required API endpoints
-2. Implement the middleware and error handling
-3. Document your API in the README.md
-4. Include examples of requests and responses
+## Example Response:
+{
+  "id": "4",
+  "name": "Tablet",
+  "description": "10-inch tablet with 64GB storage",
+  "price": 400,
+  "category": "electronics",
+  "inStock": true
+}
 
-## Resources
+## PUT /api/products/:id
+Update an existing product.
+Request Body:
+{
+  "name": "Updated Laptop",
+  "description": "High-performance laptop with 32GB RAM",
+  "price": 1500,
+  "category": "electronics",
+  "inStock": true
+}
 
-- [Express.js Documentation](https://expressjs.com/)
-- [RESTful API Design Best Practices](https://restfulapi.net/)
-- [HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) 
+## Example Request:
+PUT /api/products/1
+Authorization: Bearer mysecrettoken
+Content-Type: application/json
+
+## Example Response:
+{
+  "id": "1",
+  "name": "Updated Laptop",
+  "description": imitateHigh-performance laptop with 32GB RAM",
+  "price": 1500,
+  "category": "electronics",
+  "inStock": true
+}
+
+DELETE /api/products/:id
+Delete a product by ID.
+Example Request:
+DELETE /api/products/1
+Authorization: Bearer mysecrettoken
+
+## Example Response:Status: 204 No Content
+Error Handling
+
+400: Bad Request - Invalid input data
+401: Unauthorized - Invalid or missing authentication token
+404: Not Found - Product not found
+500: Internal Server Error - Server error
+
+## Middleware
+
+Request logging: Logs all incoming requests with timestamp and method
+Authentication: Requires a bearer token
+Validation: Ensures all required fields are present and valid

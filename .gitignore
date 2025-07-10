@@ -1,0 +1,49 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Logs
+logs/
+*.log
+npm-cache/
+*.log.*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Build and distribution directories
+dist/
+build/
+
+# Test artifacts
+coverage/
+*.test.js
+*.spec.js
+
+# Postman collections and environments
+*.postman_collection.json
+*.postman_environment.json
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Local development files
+*.local
